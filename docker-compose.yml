@@ -1,18 +1,25 @@
 services:
-  chromium:
-    build: 
+  chromium-bookworm:
+    build:
       context: .
       args:
         DISTRO_CODENAME: bookworm
+    image: quay.io/inviqa_images/chromium:bookworm${TAG_SUFFIX:-}
+
+  chromium-trixie:
+    build:
+      context: .
+      args:
+        DISTRO_CODENAME: trixie
       tags:
         - quay.io/inviqa_images/chromium:latest${TAG_SUFFIX:-}
-    image: quay.io/inviqa_images/chromium:bookworm${TAG_SUFFIX:-}
+    image: quay.io/inviqa_images/chromium:trixie${TAG_SUFFIX:-}
 
   test:
     build:
       context: .
       dockerfile: Dockerfile.test
     links:
-      - chromium:chromium
+      - chromium-trixie:chromium
     profiles:
       - test
